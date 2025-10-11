@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+<html lang="en">
 
-<head lang="en">
+<head>
     <meta charset="UTF-8">
     <title>QR Page</title>
     <style>
@@ -15,34 +16,31 @@
 </head>
 
 <body>
-    <H1> Your QR is here:</H1>
+    <h1>Your QR is here:</h1>
 
+    <!-- Generate form (keeps the previous value) -->
     <form method="POST">
-        <input type="text" name="qr_text" placeholder="Enter URL or text" required>
-        <button type="submit">Generate</button>
+        <input type="text" name="qr_text" placeholder="Enter URL or text" required
+            value="{{ qr_data if qr_data else '' }}">
+        <button type="submit" name="action" value="generate">Generate</button>
     </form>
-
 
     {% if QR_IMG %}
     <h3>For: {{ qr_data }}</h3>
     <img src="data:image/png;base64,{{ QR_IMG }}" alt="QR Code">
 
+    <!-- Separate POST form for downloading: must include the same qr_text -->
+    <form method="POST" style="margin-top:10px;">
+        <input type="hidden" name="qr_text" value="{{ qr_data }}">
+        <button type="submit" name="action" value="download">Download QR</button>
+    </form>
+
     {% if qr_url %}
-    <!-- show safe external link only when we normalized it to an absolute URL -->
     <p><a href="{{ qr_url }}" target="_blank" rel="noopener noreferrer">Open {{ qr_url }}</a></p>
     {% else %}
     <p class="note">Input looks like plain text (not a clickable URL).</p>
     {% endif %}
     {% endif %}
-
-    <!-- {% if QR_IMG %}
-    <H2> Your QR code for {{ qr_data }}</H2>
-    <img src="data:image/png;base64, {{ QR_IMG }}">
-    <a href="{{ qr_data }}" target="_blank">Go to {{ qr_data }}</a>
-    {% endif %} -->
-    <!-- 
-    <img src="data:image/png;base64, {{ QR_IMG }}">
-    <a href="{{ qr_data }}" target="_blank">Go to {{ qr_data }}</a> -->
 </body>
 
 </html>

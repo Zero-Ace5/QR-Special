@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 import qrcode
 import io
 import base64
@@ -57,6 +57,14 @@ def qr():
             buf = io.BytesIO()
             qr_img.save(buf, 'PNG')
             buf.seek(0)
+
+            if request.form.get('action') == 'download':
+                return send_file(
+                    buf,
+                    mimetype='image/png',
+                    as_attachment=True,
+                    download_name='QR.png'
+                )
 
             qr_img = base64.b64encode(buf.getvalue()).decode('UTF-8')
 
