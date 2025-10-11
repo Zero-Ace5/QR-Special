@@ -1,6 +1,8 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 
 app = Flask(__name__)
+
+app.secret_key = "secre"
 
 
 @app.route('/')
@@ -10,11 +12,17 @@ def home():
 
 @app.route('/about', methods=['GET', 'POST'])
 def uname():
-    # return "This is About"
+    # name = request.form.get('name') if request.method == 'POST'else None
+    # return render_template('about.html', name=name)
+    name = None
+
     if request.method == 'POST':
         name = request.form.get('name')
-        return render_template('about.html', name=name)
-    return render_template('about.html', name=None)
+
+    if name:
+        session['username'] = name
+
+    return render_template('about.html', name=session.get('username'))
 
 
 if __name__ == "__main__":
