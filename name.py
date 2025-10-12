@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, redirect, url_for, flash
 
 app = Flask(__name__)
 
@@ -23,6 +23,16 @@ def uname():
         session['username'] = name
 
     return render_template('about.html', name=session.get('username'))
+
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    name = request.form.get('name')
+    if not name.strip():
+        flash("Name cannot be empty!", "error")
+        return redirect(url_for('home'))
+    session['username'] = name
+    return redirect(url_for('uname'))
 
 
 if __name__ == "__main__":

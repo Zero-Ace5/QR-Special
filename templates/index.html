@@ -7,10 +7,24 @@
 </head>
 
 <body>
-    <form action="/about" method="POST">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <form action="/submit" method="POST">
         <input type="text" name="name" placeholder="Enter a Name" required>
-        <button type="submit">Subit Name</button>
+        <button type="submit">Submit Name</button>
     </form>
+
 </body>
 
 </html>
