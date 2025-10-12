@@ -35,5 +35,10 @@ def submit():
     return redirect(url_for('uname'))
 
 
+@app.route('/jinja')
+def jinja():
+    return render_template('jinja.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)
