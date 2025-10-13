@@ -1,14 +1,12 @@
 import logging
 from flask import Flask, request, render_template, session, redirect, url_for, flash
+from routes.main_routes import main_bp
 
 app = Flask(__name__)
 
 app.secret_key = "secre"
 
-
-@app.route('/')
-def home():
-    return render_template('index.html')
+app.register_blueprint(main_bp)
 
 
 @app.route('/about', methods=['GET', 'POST'])
