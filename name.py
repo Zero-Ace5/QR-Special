@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, request, render_template, session, redirect, url_for, flash
 
 app = Flask(__name__)
@@ -38,6 +39,12 @@ def submit():
 @app.route('/jinja')
 def jinja():
     return render_template('jinja.html')
+
+
+@app.route('/health')
+def health_check():
+    app.logger.info("Health check requested.")
+    return {"status": "ok"}, 200
 
 
 if __name__ == "__main__":
